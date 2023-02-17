@@ -6,7 +6,7 @@ Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engine
 
 ### Data Analysis of Canada Immigration Information
 
-Datasets belong to Immigration, Refugees and Citizenship Canada. It is the department of the Government of Canada with responsibility for matters dealing with immigration to Canada, refugees, and Canadian citizenship. The department was established in 1994 following a reorganization.
+Datasets belong to Immigration, Refugees and Citizenship Canada. It is the department of the Government of Canada with responsibility for matters dealing with immigration to Canada, refugees, and Canadian citizenship.The department was established in 1994 following a reorganization.
 
 ![Canada image](demo/CanadaPG1.png)
 
@@ -30,5 +30,3 @@ Check out the website here
 
 ## Feedback
 All feedbacks and comments welcome! Email me now.
-
-![Logo](/demo/me11.jpg)
