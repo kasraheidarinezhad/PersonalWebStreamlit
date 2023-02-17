@@ -5,7 +5,7 @@ from PIL import Image
 
 
 # Find more emojis here: https://www.webfx.com/tools/emoji-cheat-sheet/
-st.set_page_config(page_title="Data Eng. with Kasra", page_icon=":tada:", layout="wide")
+st.set_page_config(page_title="Data Eng. with Kasra", page_icon=":computer:", layout="wide")
 
 
 def load_lottieurl(url):
@@ -32,10 +32,8 @@ img_lottie_animation = Image.open("images/CanadaPG.png")
 with st.container():
     st.subheader("Hi, I am Kasra :wave:")
     st.title("A Data Engineer From Vancouver, Canada")
-    st.write(
-        "I am passionate about finding ways to bring new insight to your data in more efficient and effective ways."
-    )
-    st.write("[Learn More >](https://www.Github.com/kasraheidarinezhad.com)")
+    st.write("I am passionate about finding ways to bring new insight to your data in more efficient and effective ways.")
+    st.write("[Read more... >](https://www.Github.com/kasraheidarinezhad)")
 
 # ---- WHAT I DO ----
 with st.container():
@@ -44,14 +42,10 @@ with st.container():
     with left_column:
         st.header("About me:")
         st.write("##")
-        st.write(
-            """ Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engineering from the I. Azad University. He is an accomplished Data engineer, having developed effective solutions to challenging data-related problems. His expertise includes Big Data, Machine Learning, and Predictive Analytics, and he is well-versed in various programming languages and software tools which aid in the analysis and engineering of data. Kasra has been involved in data-driven projects in the financial services, retail, gas-oil, and energy industries. He has a comprehensive knowledge of the data lifecycle, from acquisition, cleaning, and analysis to visualization. Additionally, Kasra is highly capable of designing data pipelines, data warehouses, and machine learning models.
-                \
-                Phone: (604) 442-3332\
-                Email:  Kasra.Heidarinezhad@gmail.com
-            """
-        )
-        st.write("[Linkedin >](https://www.Linkedin.com/kasra-heidarinezhad)")
+        st.write("Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engineering from the I. Azad University. He is an accomplished Data engineer, having developed effective solutions to challenging data-related problems. His expertise includes Big Data, Machine Learning, and Predictive Analytics, and he is well-versed in various programming languages and software tools which aid in the analysis and engineering of data. Kasra has been involved in data-driven projects in the financial services, retail, gas-oil, and energy industries. He has a comprehensive knowledge of the data lifecycle, from acquisition, cleaning, and analysis to visualization. Additionally, Kasra is highly capable of designing data pipelines, data warehouses, and machine learning models.")
+        st.write(":iphone:", "(604) 442-3332")
+        st.write(":email: Kasra [dot] Heidarinezhad [at] gmail.com")
+        st.markdown("[Linkedin](https://www.Linkedin.com/kasra-heidarinezhad)")
     with right_column:
         st_lottie(lottie_coding, height=300, key="coding")
 
