@@ -9,8 +9,8 @@ Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engine
 📢 https://share.streamlit.io/kasra.Heidarinezhad/PersonalWebsiteStreamlit/app.py
 
 ## Screenshots
-![Screenshots](/images/CanadaPG.png?raw=true)
-![Screenshots](/images/VancouverRS.png?raw=true)
+![Screenshots](/demo/CanadaPG1.png?raw=true)
+![Screenshots](/demo/VancouverRS1.png?raw=true)
 
 ## Author
 * Kasra Heidarinezhad
@@ -21,4 +21,4 @@ Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engine
 ## Feedback
 If you have any feedback, please reach out to me at Kasra.Heidarinezhad@gmail.com
 
-![Logo](/images/me.jpg)
+![Logo](/demo/me11.jpg)
