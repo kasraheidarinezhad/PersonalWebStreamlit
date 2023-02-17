@@ -64,10 +64,10 @@ with st.container():
     with image_column:
         st.image(img_lottie_animation)
     with text_column:
-        st.subheader("Canada Immigration Information")
+        st.subheader("Data Analysis of Canada Immigration Information")
         st.write(
             """
-            Immigration, Refugees and Citizenship Canada (IRCC; French: Immigration, Réfugiés et Citoyenneté Canada)[NB 1] is the department of the Government of Canada with responsibility for matters dealing with immigration to Canada, refugees, and Canadian citizenship. The department was established in 1994 following a reorganization.
+            Datasets belong to Immigration, Refugees and Citizenship Canada. It is the department of the Government of Canada with responsibility for matters dealing with immigration to Canada, refugees, and Canadian citizenship. The department was established in 1994 following a reorganization.
             """
         )
         st.markdown("[Link coming soon!...](https://www.google.com)")
