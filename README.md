@@ -24,7 +24,7 @@ Check out the website here
 
 ## Author
 * Kasra Heidarinezhad
-* [Website](https://share.streamlit.io/kasra.Heidarinezhad/PersonalWebsiteStreamlit/app.py)
+* [Website](https://kasraheidarinezhad-personalwebstreamlit-app-0ipy2u.streamlit.app)
 * Github: https://www.Github.com/kasraheidarinezhad
 * Linkedin: https://www.Linkedin.com/kasra-heidarinezhad
 * Email: Kasra [dot] Heidarinezhad at gmail.com
