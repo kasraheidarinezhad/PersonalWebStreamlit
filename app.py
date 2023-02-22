@@ -1,12 +1,18 @@
 import requests
 import streamlit as st
-from streamlit_lottie import st_lottie
-from PIL import Image
+import pandas as pd
+import plost
+import pydeck as pdk
 
 
 # Find more emojis here: https://www.webfx.com/tools/emoji-cheat-sheet/
 st.set_page_config(page_title="Data Eng. with Kasra", page_icon=":computer:", layout="wide")
 
+#Load Data----------------------------------------------------
+df = pd.read_csv('MetroVan.csv')
+df = df.drop_duplicates(subset='ZipCode', keep="first")
+df_obj = df.select_dtypes(['object'])
+df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
 
 def load_lottieurl(url):
     r = requests.get(url)
@@ -14,88 +20,98 @@ def load_lottieurl(url):
         return None
     return r.json()
 
-
-# Use local CSS
-def local_css(file_name):
-    with open(file_name) as f:
+# Use local CSS ----------------------------
+with open('style/style.css') as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
-
-local_css("style/style.css")
-
-# ---- LOAD ASSETS ----
-lottie_coding = load_lottieurl("https://assets5.lottiefiles.com/packages/lf20_fcfjwiyb.json")
-img_contact_form = Image.open("images/VancouverRS.png")
-img_lottie_animation = Image.open("images/CanadaPG.png")
-
-# ---- HEADER SECTION ----
+#Side setting -------------------------------------
+st.sidebar.header('Dashboard V2.0')
+st.sidebar.subheader('Housing parameter')
+#df.Town.value_counts().sort_values()
+df1 = df.groupby('Town').size().sort_values(ascending=False).reset_index(name='count')
+#Sel_Town = st.sidebar.radio("Select town", df.Town.value_counts())  #unique
+Sel_Town = st.sidebar.radio("Select town", df1.Town.unique())  #unique
+rdf = df.loc[df['Town'] == Sel_Town]  # Set selected Town
+# ---- HEADER SECTION ---------------------------------
 with st.container():
-    st.subheader("Hi, I am Kasra :wave:")
-    st.title("A Data Engineer From Vancouver, Canada")
-    st.write("I am passionate about finding ways to bring new insight to your data in more efficient and effective ways.")
-    st.write("[Read more... >](https://www.Github.com/kasraheidarinezhad)")
-
-# ---- WHAT I DO ----
-with st.container():
-    st.write("---")
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.header("About me:")
-        st.write("##")
-        st.write("Kasra Heidarinezhad has achieved Bachelor and Master's degree in Computer Engineering from the I. Azad University. He is an accomplished Data engineer, having developed effective solutions to challenging data-related problems. His expertise includes Big Data, Machine Learning, and Predictive Analytics, and he is well-versed in various programming languages and software tools which aid in the analysis and engineering of data. Kasra has been involved in data-driven projects in the financial services, retail, gas-oil, and energy industries. He has a comprehensive knowledge of the data lifecycle, from acquisition, cleaning, and analysis to visualization. Additionally, Kasra is highly capable of designing data pipelines, data warehouses, and machine learning models.")
-        st.write(":iphone:", "(604) 442-3332")
-        st.write(":email: Kasra [dot] Heidarinezhad [at] gmail.com")
-        st.markdown("[Linkedin](https://www.Linkedin.com/kasra-heidarinezhad)")
-    with right_column:
-        st_lottie(lottie_coding, height=300, key="coding")
-
-# ---- PROJECTS ----
+    st.subheader("British Columbia Housing Distribution and Price Viso")
+# Row A ---------------------------------------
+#with st.container():
+#    st.write("---")
+#    col1, col2, col3 = st.columns(3)
+#    col1.metric("Max price: " + str(rdf.shape[0]), "Max: " + str(rdf.Price.min()) , "Max: " + str(rdf.Price.max()))
+#    col2.metric("Min price: " + str(rdf.shape[0]), "Min: " + str(rdf.Price.min()) , "Min: " + str(rdf.Price.min()))
+#    col3.metric("Average: " + str(rdf.shape[0]), "Avg: " + str(rdf.Price.min()) , "Avg: " + str(rdf.Price.min())) 
+    
+# Row B ---------------------------------------
 with st.container():
     st.write("---")
-    st.header("My Sample Projects")
-    st.write("##")
-    image_column, text_column = st.columns((1, 2))
-    with image_column:
-        st.image(img_lottie_animation)
-    with text_column:
-        st.subheader("Data Analysis of Canada Immigration Information")
-        st.write(
-            """
-            Datasets belong to Immigration, Refugees and Citizenship Canada. It is the department of the Government of Canada with responsibility for matters dealing with immigration to Canada, refugees, and Canadian citizenship. The department was established in 1994 following a reorganization.
-            """
-        )
-        st.markdown("[Link coming soon!...](https://www.google.com)")
-with st.container():
-    image_column, text_column = st.columns((1, 2))
-    with image_column:
-        st.image(img_contact_form)
-    with text_column:
-        st.subheader("An EDA Case Study: Real Estate in Metro Vancouver, BC, Canada")
-        st.write(
-            """
-            In this project, we have scraped, prepared, and analyzed the housing prices in British Columbia. We have also done some visualizations in the real estate market and proposed some ML methods for predicting housing prices.
-            """
-        )
-        st.markdown("[Link coming soon!...](https://www.google.com)")
+    col1, col2, col3 = st.columns(3)
 
-# ---- CONTACT ----
+    with col1:
+        dfr = rdf.query(' -121 > longitude > -124')
+        dfr = rdf.query('48 < latitude < 51')
+
+        st.pydeck_chart(pdk.Deck(
+        #map_style = "mapbox://styles/mapbox/streets-v12" ,#None,
+        initial_view_state=pdk.ViewState(
+        latitude=dfr.latitude.mean(), longitude=dfr.longitude.mean(),
+        zoom=11, pitch=50,
+        ),
+        layers=[
+        pdk.Layer(
+           'ScatterplotLayer', #'HexagonLayer',
+           data=dfr,
+           get_position='[longitude , latitude]',
+           radius=50, elevation_scale=14, elevation_range=[0, 500],
+           pickable=True, extruded=True,
+            ),
+        pdk.Layer(
+            'ScatterplotLayer',
+            data=dfr,
+            get_position='[longitude , latitude]',
+            get_color='[200, 30, 0, 160]', get_radius=50,
+            ), ],
+        ))
+
+    with col2:
+        plost.area_chart(data=rdf, x='Price', y=dict(field='Area', aggregate='mean'), color='Beds', height=530)
+    
+    with col3:
+        st.vega_lite_chart(rdf, {
+    'mark': {'type': 'circle', 'tooltip': True},
+    'width': 600,
+    "height": 530,
+    'encoding': {
+        'x': {'field': 'Price', 'type': 'quantitative'},
+        'y': {'field': 'Beds', 'type': 'quantitative'},
+        'size': {'field': 'Baths', 'type': 'quantitative'},
+        'color': {'field': 'Baths', 'type': 'quantitative'},
+    },
+})
+
+# Row C ---------------------------------------
 with st.container():
     st.write("---")
-    st.header("Get In Touch With Me!")
-    st.write("##")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        plost.line_chart(data=rdf,  x='ZipCode',  y='Price', height=450)
 
-    # Documention: https://formsubmit.co/ !!! CHANGE EMAIL ADDRESS !!!
-    contact_form = """
-    <form action="https://formsubmit.co/Kasra.Heidarinezhad@GMAIL.COM" method="POST">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="text" name="name" placeholder="Your name" required>
-        <input type="email" name="email" placeholder="Your email" required>
-        <textarea name="message" placeholder="Your message here" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-    """
-    left_column, right_column = st.columns(2)
-    with left_column:
-        st.markdown(contact_form, unsafe_allow_html=True)
-    with right_column:
-        st.empty()
+    with col2:
+        st.caption("Broker List")
+        st.dataframe(rdf.Broker.unique(), use_container_width=True)
+    
+    with col3:
+        plost.donut_chart(data=rdf, theta='Price', color='Beds', height=450)
+# Row D ---------------------------------------
+with st.container():
+    st.write("---")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        plost.hist(data=rdf,  x='Price', bin=20,  aggregate='count')
+
+    with col2:
+        plost.xy_hist(data=rdf, x='Price', y='Area', x_bin=dict(maxbins=20),  y_bin=dict(maxbins=20),  height=400)
+  
+    with col3:
+        plost.bar_chart(data=rdf, bar='Price', value='Area', width=300, pan_zoom='Beds')
